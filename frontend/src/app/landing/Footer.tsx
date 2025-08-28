@@ -2,8 +2,8 @@ import Link from "next/link";
 
 export default function Footer() {
   return (
-    <footer className="w-full border-t bg-background">
-      <div className="container mx-auto px-4 md:px-6 2xl:max-w-[1400px] flex flex-col items-center justify-between gap-4 py-10 md:h-24 md:flex-row md:py-0">
+    <footer className="text-center w-full border-t bg-background">
+      <div className="container mx-auto px-4 md:px-6 2xl:max-w-[1400px] flex flex-col items-center justify-center gap-4 py-10 md:h-24 md:flex-row md:py-0">
         
         <div className="flex flex-col items-center justify-center gap-4 md:flex-row md:gap-6">
           <nav className="flex gap-4 md:gap-6">
@@ -26,7 +26,7 @@ export default function Footer() {
               Contact
             </Link>
           </nav>
-          <p className="text-center text-sm text-muted-foreground md:text-left">
+          <p className="text-center text-sm text-muted-foreground">
             &copy; {new Date().getFullYear()} Your Company. All rights reserved.
           </p>
         </div>

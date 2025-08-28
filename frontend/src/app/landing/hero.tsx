@@ -1,7 +1,7 @@
 "use client";
 
 import { Logo } from "@/components/logo";
-import { Menu, X, ShoppingCart } from "lucide-react";
+import { Menu, X, ShoppingCart, User } from "lucide-react";
 import React from "react";
 import Link from "next/link";
 import { ModeToggle } from "@/components/mode-toggle";
@@ -16,19 +16,24 @@ const menuItems = [
 
 export const HeroHeader = () => {
   const [menuState, setMenuState] = React.useState(false);
-  // Usa las funciones y el estado del contexto
   const { getTotalItems, isCartSheetOpen, openCartSheet, closeCartSheet } =
     useCart();
+  const totalItems = getTotalItems();
+
+  const toggleMenu = () => setMenuState(!menuState);
+
+  const handleOpenCart = () => {
+    openCartSheet();
+    setMenuState(false); // Cierra el menú móvil al abrir el carrito
+  };
 
   return (
     <header>
-      <nav
-        data-state={menuState && "active"}
-        className="bg-background/50 fixed z-20 w-full border-b backdrop-blur-3xl"
-      >
+      <nav className="bg-background fixed z-20 w-full border-b">
         <div className="mx-auto max-w-6xl px-6 transition-all duration-300">
-          <div className="relative flex flex-wrap items-center justify-between gap-6 py-3 lg:gap-0 lg:py-4">
-            <div className="flex w-full items-center justify-between gap-12 lg:w-auto">
+          <div className="relative flex items-center justify-between gap-6 py-3 lg:gap-0 lg:py-4">
+            {/* Logo y menú de escritorio */}
+            <div className="flex items-center gap-12">
               <Link
                 href="/"
                 aria-label="home"
@@ -36,14 +41,6 @@ export const HeroHeader = () => {
               >
                 <Logo />
               </Link>
-              <button
-                onClick={() => setMenuState(!menuState)}
-                aria-label={menuState === true ? "Close Menu" : "Open Menu"}
-                className="relative z-20 -m-2.5 -mr-4 block cursor-pointer p-2.5 lg:hidden"
-              >
-                <Menu className="in-data-[state=active]:rotate-180 in-data-[state=active]:scale-0 in-data-[state=active]:opacity-0 m-auto size-6 duration-200" />
-                <X className="in-data-[state=active]:rotate-0 in-data-[state=active]:scale-100 in-data-[state=active]:opacity-100 absolute inset-0 m-auto size-6 -rotate-180 scale-0 opacity-0 duration-200" />
-              </button>
               <div className="hidden lg:block">
                 <ul className="flex gap-8 text-sm">
                   {menuItems.map((item, index) => (
@@ -59,59 +56,109 @@ export const HeroHeader = () => {
                 </ul>
               </div>
             </div>
-            <div className="bg-background in-data-[state=active]:block lg:in-data-[state=active]:flex mb-6 hidden w-full flex-wrap items-center justify-end space-y-8 rounded-3xl border p-6 shadow-2xl shadow-zinc-300/20 md:flex-nowrap lg:m-0 lg:flex lg:w-fit lg:gap-6 lg:space-y-0 lg:border-transparent lg:bg-transparent lg:p-0 lg:shadow-none dark:shadow-none dark:lg:bg-transparent">
-              <div className="lg:hidden">
-                <ul className="space-y-6 text-base">
-                  {menuItems.map((item, index) => (
-                    <li key={index}>
-                      <Link
-                        href={item.href}
-                        className="text-muted-foreground hover:text-accent-foreground block duration-150"
-                      >
-                        <span>{item.name}</span>
-                      </Link>
-                    </li>
-                  ))}
-                  <li>
-                    <Button
-                      variant="ghost"
-                      className="w-full justify-start text-muted-foreground hover:text-accent-foreground flex items-center gap-2"
-                      onClick={() => {
-                        openCartSheet(); // Usa la función del contexto
-                        setMenuState(false);
-                      }}
-                    >
-                      <ShoppingCart className="h-5 w-5" />
-                      <span>Carrito ({getTotalItems()})</span>
-                    </Button>
-                  </li>
-                </ul>
-              </div>
+
+            {/* Botones de acción y menú de hamburguesa */}
+            <div className="flex items-center gap-2">
+              {/* Botón de hamburguesa para móvil */}
+              <button
+                onClick={toggleMenu}
+                aria-label={menuState ? "Cerrar Menú" : "Abrir Menú"}
+                aria-expanded={menuState}
+                className="relative z-20 block cursor-pointer p-2.5 lg:hidden"
+              >
+                <Menu
+                  className={`m-auto size-6 duration-200 ${
+                    menuState ? "scale-0 opacity-0" : "scale-100 opacity-100"
+                  }`}
+                />
+                <X
+                  className={`absolute inset-0 m-auto size-6 duration-200 ${
+                    menuState ? "scale-100 opacity-100" : "scale-0 opacity-0"
+                  }`}
+                />
+              </button>
+
+              {/* Botones para escritorio y móvil */}
               <div className="flex items-center gap-2">
+                {/* Botón de perfil */}
                 <Button
                   variant="ghost"
                   size="icon"
                   className="relative"
-                  onClick={openCartSheet} // Usa la función del contexto
+                  // onClick={() => { /* Manejar el clic del perfil */ }}
+                >
+                  <User className="h-5 w-5" />
+                </Button>
+                {/* Botón del carrito */}
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="relative"
+                  onClick={openCartSheet}
                 >
                   <ShoppingCart className="h-5 w-5" />
-                  {getTotalItems() > 0 && (
+                  {totalItems > 0 && (
                     <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-xs text-white">
-                      {getTotalItems()}
+                      {totalItems}
                     </span>
                   )}
                 </Button>
                 <ModeToggle />
               </div>
             </div>
+
+            {/* Menú móvil (se posiciona de forma absoluta) */}
+            <div
+              className={`${
+                menuState ? "block" : "hidden"
+              } bg-background absolute left-0 right-0 top-full z-10 w-full rounded-b-lg border-b p-6 shadow-lg lg:hidden`}
+            >
+              <ul className="space-y-6 text-base">
+                {menuItems.map((item, index) => (
+                  <li key={index}>
+                    <Link
+                      href={item.href}
+                      className="text-muted-foreground hover:text-accent-foreground block duration-150"
+                    >
+                      <span>{item.name}</span>
+                    </Link>
+                  </li>
+                ))}
+                <li>
+                  {/* Botones para móvil */}
+                  <div className="flex items-center gap-2">
+                    {/* Botón de perfil para móvil */}
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="relative"
+                      // onClick={() => { /* Manejar el clic del perfil */ }}
+                    >
+                      <User className="h-5 w-5" />
+                    </Button>
+                    {/* Botón del carrito para móvil */}
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="relative"
+                      onClick={openCartSheet}
+                    >
+                      <ShoppingCart className="h-5 w-5" />
+                      {totalItems > 0 && (
+                        <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-xs text-white">
+                          {totalItems}
+                        </span>
+                      )}
+                    </Button>
+                    <ModeToggle />
+                  </div>
+                </li>
+              </ul>
+            </div>
           </div>
         </div>
       </nav>
-      {/* Pasa el estado y la función de cierre del contexto al componente de la sheet */}
-      <ShoppingCartSheet
-        isOpen={isCartSheetOpen}
-        onClose={closeCartSheet}
-      />
+      <ShoppingCartSheet isOpen={isCartSheetOpen} onClose={closeCartSheet} />
     </header>
   );
 };

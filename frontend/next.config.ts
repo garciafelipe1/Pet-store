@@ -1,24 +1,38 @@
-
-
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  // Aquí es donde añades las opciones de configuración de Next.js
   images: {
-    // Aquí defines qué dominios están permitidos para las imágenes de next/image
-    domains: [
-      "ik.imagekit.io",
-      "imgs.search.brave.com",
-      "thumbs.dreamstime.com",
-      "example.com", // <-- ¡Añade este dominio aquí!
-      // Si tus imágenes están alojadas en otros dominios (ej. un CDN o tu propio backend),
-      // deberías añadir esos dominios también.
-      // Por ejemplo, si sirves imágenes desde tu backend en localhost:3000 en desarrollo:
-      // 'localhost',
+    // Es mejor usar remotePatterns, ya que `domains` está obsoleto.
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'ik.imagekit.io',
+      },
+      {
+        protocol: 'https',
+        hostname: 'imgs.search.brave.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'thumbs.dreamstime.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'example.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'i.pinimg.com',
+      },
+      {
+        // ¡Este es el nuevo dominio que necesitas agregar!
+        protocol: 'https',
+        hostname: 'www.mcqueensflowers.com',
+        // Opcional: si quieres ser más específico, puedes añadir el pathname
+        // pathname: '/cdn/shop/files/**',
+      },
     ],
   },
-  // Puedes añadir otras configuraciones aquí si las necesitas en el futuro
-  /* config options here */
 };
 
 export default nextConfig;
