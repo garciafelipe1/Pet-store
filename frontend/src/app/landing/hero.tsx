@@ -109,7 +109,7 @@ export const HeroHeader = () => {
                   src="https://i.pinimgproxy.com/?url=aHR0cHM6Ly9jZG4taWNvbnMtcG5nLmZsYXRpY29uLmNvbS8yNTYvOTEzNC85MTM0NTk0LnBuZw==&ts=1756442070&sig=78ed0fa94f827e93c110db83a474a76dd5d409385ae2e3dcb05b4c56a8c19d4a"
                   alt="Logo de la empresa"
                   width={40}
-                  height={50}
+                  height={40}
                   className="h-auto w-auto"
                 />
               </Link>

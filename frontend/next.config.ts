@@ -35,6 +35,11 @@ const nextConfig: NextConfig = {
         protocol: 'https',
         hostname: 'i.pinimgproxy.com',
       }
+      ,
+      { 
+        protocol: 'https',
+        hostname:'images.unsplash.com',
+      }
     ],
   },
 };

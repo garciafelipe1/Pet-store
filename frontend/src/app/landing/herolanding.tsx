@@ -1,39 +1,56 @@
 "use client";
+
 import React from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { EffectFade, Pagination } from "swiper/modules";
+// Importamos módulos clave para el deslizamiento y la navegación
+import { Navigation, Pagination, Autoplay } from "swiper/modules";
 import Image from "next/image";
 
-// Importa solo lo necesario
+// Importaciones de Swiper
 import "swiper/css";
+import "swiper/css/navigation"; // Necesario para las flechas de navegación
 import "swiper/css/pagination";
-import "swiper/css/effect-fade";
+// No necesitamos "swiper/css/effect-fade" si usamos deslizamiento
+
+// Array de imágenes que mantuviste
+const heroImages = [
+  {
+    src: "https://images.unsplash.com/photo-1543466835-1f95a0247413?q=80&w=2940&auto=format&fit=crop",
+    alt: "Perro feliz jugando con una pelota",
+    title: "Juguetes y Accesorios para tu Mejor Amigo",
+    subtitle: "Encuentra la diversión perfecta para cada raza.",
+  },
+  {
+    src: "https://images.unsplash.com/photo-1598133506461-71ae75d4a1fe?q=80&w=2952&auto=format&fit=crop",
+    alt: "Gato durmiendo cómodamente en una cama",
+    title: "Camas y Comodidad para un Descanso Inigualable",
+    subtitle: "Tu mascota merece el mejor lugar para soñar.",
+  },
+  {
+    src: "https://images.unsplash.com/photo-1563248384-3c65c69d854e?q=80&w=2940&auto=format&fit=crop",
+    alt: "Perro comiendo",
+    title: "Alimentos Premium para una Vida Saludable",
+    subtitle: "Nutrición especializada para el bienestar de tu mascota.",
+  },
+];
 
 export default function HeroLanding() {
-  const images = [
-    {
-      src: "https://i.pinimg.com/1200x/07/1e/85/071e85493dc1d5d4f5333c150f7d8f5c.jpg",
-      alt: "Arreglo floral",
-    },
-    {
-      src: "https://i.pinimg.com/736x/ba/39/fd/ba39fd748c2cf16a300ab56afd334f80.jpg",
-      alt: "Pájaros en jaula",
-    },
-  ];
-
   return (
     <main className="relative h-screen w-full overflow-hidden">
       <Swiper
-        modules={[EffectFade, Pagination]}
+        modules={[Navigation, Pagination, Autoplay]} // Agregamos Navigation en los módulos
         slidesPerView={1}
         loop={true}
-        effect="fade"
-        fadeEffect={{ crossFade: true }}
+        autoplay={{
+          delay: 5000,
+          disableOnInteraction: false,
+        }}
+        navigation={true} // Habilitamos las flechas de navegación
         pagination={{ clickable: true }}
-        allowTouchMove={false}
-        className="mySwiper h-full w-full"
+        // Eliminamos "effect" y "fadeEffect" para usar el deslizamiento por defecto
+        className="h-full w-full"
       >
-        {images.map((image, index) => (
+        {heroImages.map((image, index) => (
           <SwiperSlide key={index}>
             <div className="relative h-full w-full">
               <Image
@@ -43,22 +60,23 @@ export default function HeroLanding() {
                 style={{ objectFit: "cover" }}
                 quality={90}
                 priority={index === 0}
-                draggable="true"
+                className="w-full h-full"
               />
-              <div className="absolute inset-0 bg-black opacity-40"></div>
+              <div
+                className="absolute inset-0 bg-black opacity-40"
+                aria-hidden="true"
+              ></div>
+            </div>
+            <div className="absolute inset-0 z-20 flex flex-col items-center justify-center text-center text-white p-4">
+              <h1 className="text-4xl md:text-6xl font-bold">
+                {image.title}
+              </h1>
+              <p className="mt-4 max-w-xl text-lg md:text-xl">
+                {image.subtitle}
+              </p>
             </div>
           </SwiperSlide>
         ))}
-        <div className="absolute inset-0 z-20 flex h-full flex-col items-center justify-center text-center text-white p-6">
-          <h1 className="mt-8 text-2xl font-semibold md:text-5xl xl:text-6xl xl:[line-height:1.125]">
-            Tienda de Mascotas
-          </h1>
-          <p className="mx-auto mt-6 max-w-2xl text-lg md:text-xl">
-            Especialistas en productos y cuidado para mascotas. Calidad,
-            confianza y atención personalizada para el bienestar de tu
-            compañero.
-          </p>
-        </div>
       </Swiper>
     </main>
   );

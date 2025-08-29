@@ -32,11 +32,11 @@ export const ShoppingCartSheet: React.FC<ShoppingCartSheetProps> = ({
 
   // Puedes añadir un estado para el campo de impuestos si tuvieras una lógica real de impuestos.
   // Por ahora, lo dejaremos fijo como en tu ejemplo de imagen.
-  const taxEstimate = 4.5; // Ejemplo fijo, deberías calcular esto dinámicamente si aplica
+  
 
   const subtotal = getTotalPrice();
-  const shippingEstimate = 5.0; // Puedes hacer esto dinámico si tienes lógicas de envío aquí
-  const orderTotal = subtotal + shippingEstimate + taxEstimate;
+ 
+  const orderTotal = subtotal ;
 
   return (
     <Sheet open={isOpen} onOpenChange={onClose}>
@@ -139,14 +139,7 @@ export const ShoppingCartSheet: React.FC<ShoppingCartSheetProps> = ({
               <span>Subtotal</span>
               <span>${subtotal.toFixed(2)}</span>
             </div>
-            <div className="flex justify-between">
-              <span>Shipping estimate</span>
-              <span>${shippingEstimate.toFixed(2)}</span>
-            </div>
-            <div className="flex justify-between">
-              <span>Tax estimate</span>
-              <span>${taxEstimate.toFixed(2)}</span>
-            </div>
+            
             <div className="flex justify-between font-bold text-lg pt-2 border-t">
               <span>Order total</span>
               <span>${orderTotal.toFixed(2)}</span>
