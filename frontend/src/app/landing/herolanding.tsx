@@ -12,11 +12,11 @@ import "swiper/css/effect-fade";
 export default function HeroLanding() {
   const images = [
     {
-      src: "https://www.mcqueensflowers.com/cdn/shop/files/McQueens_29.06.2022_BT12605_1_2200x.jpg?v=1753092120",
+      src: "https://i.pinimg.com/1200x/07/1e/85/071e85493dc1d5d4f5333c150f7d8f5c.jpg",
       alt: "Arreglo floral",
     },
     {
-      src: "https://www.mcqueensflowers.com/cdn/shop/files/McQueens_29.06.2022_BT12605_1_2200x.jpg?v=1753092120",
+      src: "https://i.pinimg.com/736x/ba/39/fd/ba39fd748c2cf16a300ab56afd334f80.jpg",
       alt: "Pájaros en jaula",
     },
   ];

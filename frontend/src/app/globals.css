@@ -119,4 +119,8 @@
   body {
     @apply bg-background text-foreground;
   }
+  /* 👈 Añade esta nueva regla para solucionar el problema */
+  html {
+    overflow-y: scroll;
+  }
 }

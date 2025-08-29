@@ -31,6 +31,10 @@ const nextConfig: NextConfig = {
         // Opcional: si quieres ser más específico, puedes añadir el pathname
         // pathname: '/cdn/shop/files/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'i.pinimgproxy.com',
+      }
     ],
   },
 };
